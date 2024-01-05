@@ -1,6 +1,8 @@
 package ir.fanapcampus.entity;
 
-public class PremiumAccount extends BankAccount {
+import ir.fanapcampus.interfaces.InvestmentCapable;
+
+public class PremiumAccount extends BankAccount implements InvestmentCapable {
 
 
     private double interestRate;
@@ -45,6 +47,25 @@ public class PremiumAccount extends BankAccount {
             setBalance(getBalance() - amount);
         } else {
             System.out.println("The account balance is not enough or invalid amount");
+        }
+    }
+
+    public void invest(double amount) {
+        if (amount > 0) {
+            capital += amount;
+            System.out.println("Invested: " + amount);
+        } else {
+            System.out.println("Invalid investment amount.");
+        }
+    }
+
+    @Override
+    public void withdrawInvestment(double amount) {
+        if (amount > 0 && amount <= capital) {
+            capital -= amount;
+            System.out.println("Withdrawn from investment: " + amount);
+        } else {
+            System.out.println("Invalid withdrawal amount.");
         }
     }
 
