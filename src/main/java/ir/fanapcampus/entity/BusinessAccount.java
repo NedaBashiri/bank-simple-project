@@ -1,6 +1,10 @@
 package ir.fanapcampus.entity;
 
-public class BusinessAccount extends BankAccount {
+import ir.fanapcampus.interfaces.Loanable;
+
+import java.util.Date;
+
+public class BusinessAccount extends BankAccount implements Loanable {
 
     private double creditLimit;
     private double transactionFee;
@@ -61,5 +65,30 @@ public class BusinessAccount extends BankAccount {
         }
     }
 
+    @Override
+    public void receiveLoan(double amount) {
+
+        if ((amount + calculateTransactionFee(amount)) > getBalance() + creditLimit) {
+            System.out.println("Insufficient funds and credit limit.");
+        } else {
+            Transaction transaction = new Transaction("1", "deposit", amount, new Date(), this);
+            transaction.execute();
+            setBalance(getBalance() + amount);
+            System.out.println("You received loan");
+        }
+
+    }
+
+    @Override
+    public void payLoan(double amount) {
+
+        double balance = getBalance();
+        if (amount > balance) {
+            System.out.println("The amount is more than the balance and we cannot pay you the loan");
+        } else {
+            withdraw(amount);
+        }
+
+    }
 
 }
