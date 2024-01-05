@@ -54,6 +54,7 @@ public class BusinessAccount extends BankAccount implements Loanable {
         if (getBalance() < amount) {
             if (getBalance() + creditLimit >= amount) {
                 double borrowedAmount = amount - getBalance();
+                receiveLoan(borrowedAmount);
                 setBalance(getBalance() - (amount + calculateTransactionFee(amount)));
                 System.out.println("successfully withdrew: " + (amount + calculateTransactionFee(amount)));
             } else {
